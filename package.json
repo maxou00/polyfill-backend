@@ -1,0 +1,26 @@
+{
+  "name": "service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/app.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^1.22.5",
+    "axios": "^0.21.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nanoid": "^3.1.25",
+    "pusher": "^5.0.0",
+    "typescript": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13"
+  }
+}
