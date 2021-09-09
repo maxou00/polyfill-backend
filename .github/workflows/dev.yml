@@ -35,8 +35,8 @@ jobs:
           image: themx05/polyfill-backend
           # Tags override for Docker image
           tags: dev
-          registry: https://registry.hub.docker.com
+          registry: registry.hub.docker.com
           # Docker registry username
-          username: secrets.DOCKER_USER
+          username: ${{secrets.DOCKER_USER}}
           # Docker registry password
           password: ${{secrets.DOCKER_PASSWORD}}
