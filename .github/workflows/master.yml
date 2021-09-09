@@ -34,7 +34,7 @@ jobs:
       with: 
         context: .
         push: true
-        tags: wastudio/z51-server:master
+        tags: themx05/polyfill-backend:master
     
     - name: Deploy to Server (Test)
       uses: appleboy/ssh-action@master
