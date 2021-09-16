@@ -8,7 +8,7 @@ export const supabaseClient = createClient(
 );
 
 export const redisClient = createRedisClient({
-    host: process.env.redis_url || "",
+    host: process.env.redis_host || "",
     port: parseInt(process.env.redis_port || '6379')
 })
 
