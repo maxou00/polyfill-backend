@@ -1,0 +1,17 @@
+{
+    "field_text": "Texte",
+    "field_text_short": "Texte court",
+    "field_text_rich": "Texte riche",
+    "field_text_paragraph": "Paragraphe",
+    "field_text_email": "Email",
+    "field_number": "Nombre",
+    "field_number_date": "Date",
+    "field_number_time": "Heure",
+    "field_number_datetime": "Date et heure",
+    "field_selection": "Sélection",
+    "field_selection_dropdown": "Sélection déroulante",
+    "field_selection_radio": "Bouton radio",
+    "field_selection_checkbox": "Case à cocher",
+    "field_selection_chip": "Puce",
+    "field_file": "Fichier"
+}

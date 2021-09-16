@@ -1,10 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import Pusher from "pusher";
+import { createClient as createRedisClient} from "redis";
 
 export const supabaseClient = createClient(
     process.env.supabase_url || "",
     process.env.supabase_service_key || "",
 );
+
+export const redisClient = createRedisClient({
+    host: process.env.redis_url || "",
+    port: parseInt(process.env.redis_port || '6379')
+})
 
 export const pusherClient = new Pusher({
     appId: process.env.pusher_app_id || "",

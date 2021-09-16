@@ -1,12 +1,11 @@
 import express from "express";
-import { supabaseClient } from "./config";
-
+import datasetRouter from "./routes/dataset";
+import { authenticateUser } from "./routes/middleware";
+import schemaRouter from "./routes/schema";
 const app = express();
 
-app.get("/forms", async (req, res) => {
-    let result = await supabaseClient.from("forms").select("*");
-    res.json(result.data);
-});
+app.use(authenticateUser);
+app.use("/schemas", schemaRouter);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Started server");

@@ -13,11 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@supabase/supabase-js": "^1.22.5",
+    "@types/redis": "^2.8.32",
     "axios": "^0.21.4",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "nanoid": "^3.1.25",
     "pusher": "^5.0.0",
+    "redis": "^3.1.2",
     "typescript": "^4.4.2"
   },
   "devDependencies": {
