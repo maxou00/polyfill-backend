@@ -15,10 +15,13 @@ filterRouter.get("/:filter", async (req, res) => {
     let pageIndex = parseInt(req.query.page as string || "1") - 1;
     let returnPerPage = parseInt(req.query.count as string || "25");
 
-    let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("id", code).or("code.eq."+code).single()).body;
-    
-    console.log(schema);
-    console.log(filter);
+    let filter = (await supabaseClient
+        .from<DataFormFilter>(Tables.filter)
+        .select("*")
+        .eq("id", code)
+        //.or("code.eq." + code)
+        .single()
+    ).body;
 
     if (filter && schema) {
         console.log("filter and schema found");
@@ -26,8 +29,8 @@ filterRouter.get("/:filter", async (req, res) => {
 
         let pageStart = returnPerPage * pageIndex;
         let pageEnd = pageStart + returnPerPage;
-        if(completeItems.length -1 > pageEnd) {
-            pageEnd = completeItems.length -1;
+        if (completeItems.length - 1 > pageEnd) {
+            pageEnd = completeItems.length - 1;
         }
 
         if (completeItems.length <= returnPerPage) {
@@ -45,7 +48,7 @@ filterRouter.get("/:filter", async (req, res) => {
                 returned.push(completeItems[index]);
             }
             return res.json({
-                success: true, 
+                success: true,
                 data: {
                     count: completeItems.length,
                     items: returned
@@ -53,15 +56,15 @@ filterRouter.get("/:filter", async (req, res) => {
             })
         }
     }
-    return res.status(404).json({ success: false, error: {code: 'NOT_FOUND'} });
+    return res.status(404).json({ success: false, error: { code: 'NOT_FOUND' } });
 })
 
-filterRouter.get("/", async(req, res) => {
-    if(req.supaUser && req.schema) {
+filterRouter.get("/", async (req, res) => {
+    if (req.supaUser && req.schema) {
         let filters = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("schemaId", req.schema.id)).body;
-        res.json({success: true, data: filters});
+        res.json({ success: true, data: filters });
     }
-    return res.status(403).json({ success: false, error: {code: 'BAD_REQUEST'} });
+    return res.status(403).json({ success: false, error: { code: 'BAD_REQUEST' } });
 })
 
 export default filterRouter;
