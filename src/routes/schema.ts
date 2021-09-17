@@ -42,7 +42,6 @@ schemaRouter.get("/:schema", (req, res) => {
     }
 })
 
-
 schemaRouter.use("/:schema/dataset", datasetRouter);
 
 schemaRouter.use("/:schema/filters", filterRouter);

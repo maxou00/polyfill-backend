@@ -7,7 +7,14 @@ import datasetRouter from "./routes/dataset";
 import { authenticateUser } from "./routes/middleware";
 import PusherEventRouter from "./routes/pusher-events";
 import schemaRouter from "./routes/schema";
+import crs from "cors";
+
 const app = express();
+
+app.use(crs({
+    origin: true,
+    allowedHeaders: ['authorization', 'content-type']
+}))
 
 app.use(authenticateUser);
 app.use("/schemas", schemaRouter);
