@@ -12,8 +12,8 @@ import crs from "cors";
 const app = express();
 
 app.use(crs({
-    origin: true,
-    allowedHeaders: ['authorization', 'content-type']
+    origin: '*',
+    allowedHeaders: ['authorization', 'content-type'],
 }))
 
 app.use(authenticateUser);
