@@ -1,10 +1,13 @@
-import { Router } from "express";
+import { json, Router, urlencoded } from "express";
 import { supabaseClient } from "../config";
 import { DataForm } from "../engine/page";
 import datasetRouter from "./dataset";
 import filterRouter from "./filter";
 
 const schemaRouter = Router();
+
+schemaRouter.use(json());
+schemaRouter.use(urlencoded());
 
 schemaRouter.use((req, res, next) => {
     if(!req.supaUser) {

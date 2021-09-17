@@ -11,25 +11,29 @@ const CacheKeys = {
     },
 }
 
-const Cache = {
-    getSchemaDataset(schemaId: string): Promise<FormResponse[]> {
+export const DataCache = {
+    getSchemaDataset(schemaId: string): Promise<FormResponse[] | undefined> {
         return new Promise((res, rej) => {
             redisClient.hmget(CacheKeys.schema(schemaId), "dataset", (err, strings) => {
                 let first = strings[0];
                 if(first) {
                     return res(JSON.parse(first));
                 }
+                else {
+                    return res(undefined);
+                }
             });
         })
     },
 
-    getFilterDataset(filterId: string): Promise<FormResponse[]> {
+    getFilterDataset(filterId: string): Promise<FormResponse[] | undefined> {
         return new Promise((res, rej) => {
             redisClient.hmget(CacheKeys.filter(filterId), "dataset", (err, strings) => {
                 let first = strings[0];
                 if(first) {
                     return res(JSON.parse(first));
                 }
+                return res(undefined);
             });
         })
     },
@@ -37,6 +41,14 @@ const Cache = {
     setSchemaDataset(schemaId: string, dataset: FormResponse[]):Promise<void> {
         return new Promise((res, rej) => {
             redisClient.hmset(CacheKeys.schema(schemaId), "dataset", JSON.stringify(dataset), (err, val) => {
+                res();
+            });
+        })
+    },
+
+    deleteSchemaDataset(schemaId: string):Promise<void> {
+        return new Promise((res, rej) => {
+            redisClient.hdel(CacheKeys.schema(schemaId), "dataset", (err, val) => {
                 res();
             });
         })
@@ -79,9 +91,17 @@ const Cache = {
         })
     },
 
-    appendFilterDatasetEntry(schemaId: string, data: FormResponse):Promise<void> {
+    deleteFilterDataset(filterId: string):Promise<void> {
+        return new Promise((res, rej) => {
+            redisClient.hdel(CacheKeys.filter(filterId), "dataset", (err, val) => {
+                res();
+            });
+        })
+    },
+
+    appendFilterDatasetEntry(filterId: string, data: FormResponse):Promise<void> {
         return new Promise(async (res, rej) => {
-            let currentDataset = await this.getFilterDataset(schemaId) || [];
+            let currentDataset = await this.getFilterDataset(filterId) || [];
             let index = currentDataset.findIndex((r) => r.id === data.id);
             if(index > -1) {
                 // item exists.
@@ -90,7 +110,7 @@ const Cache = {
             else {
                 currentDataset.push(data);
             }
-            await this.setFilterDataset(schemaId, currentDataset);
+            await this.setFilterDataset(filterId, currentDataset);
             res();
         })
     },
