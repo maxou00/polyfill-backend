@@ -15,12 +15,15 @@ filterRouter.get("/:filterCode", async (req, res) => {
     let pageIndex = parseInt(req.query.page as string || "1") - 1;
     let returnPerPage = parseInt(req.query.count as string || "25");
 
-    let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("code", code).or("id="+code).single()).body;
+    let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("code", code).or("id.eq."+code).single()).body;
     if (filter && schema) {
         let completeItems = await new FilterProvider().getDataset(schema, filter);
 
         let pageStart = returnPerPage * pageIndex;
         let pageEnd = pageStart + returnPerPage;
+        if(completeItems.length -1 > pageEnd) {
+            pageEnd = completeItems.length -1;
+        }
 
         if (completeItems.length <= returnPerPage) {
             return res.json({
@@ -37,7 +40,8 @@ filterRouter.get("/:filterCode", async (req, res) => {
                 returned.push(completeItems[index]);
             }
             return res.json({
-                success: true, data: {
+                success: true, 
+                data: {
                     count: completeItems.length,
                     items: returned
                 }

@@ -1,5 +1,6 @@
 import { json, Router, urlencoded } from "express";
 import { supabaseClient } from "../config";
+import { Tables } from "../core";
 import { DataForm } from "../engine/page";
 import datasetRouter from "./dataset";
 import filterRouter from "./filter";
@@ -20,7 +21,7 @@ schemaRouter.use((req, res, next) => {
 
 schemaRouter.use("/:schema", async (req, res, next) => {
     let schemaID = req.params.schema;
-    let schema = (await supabaseClient.from<DataForm>("forms").select("*").eq("id", schemaID).single()).data;
+    let schema = (await supabaseClient.from<DataForm>(Tables.schema).select("*").eq("id", schemaID).single()).data;
 
     if(schema) {
         req.schema = schema;
