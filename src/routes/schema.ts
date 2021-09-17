@@ -7,7 +7,7 @@ import filterRouter from "./filter";
 const schemaRouter = Router();
 
 schemaRouter.use(json());
-schemaRouter.use(urlencoded());
+schemaRouter.use(urlencoded({extended: true}));
 
 schemaRouter.use((req, res, next) => {
     if(!req.supaUser) {
