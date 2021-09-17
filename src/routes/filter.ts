@@ -16,6 +16,10 @@ filterRouter.get("/:filter", async (req, res) => {
     let returnPerPage = parseInt(req.query.count as string || "25");
 
     let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("id", code).or("code.eq."+code).single()).body;
+    
+    console.log(schema);
+    console.log(filter);
+
     if (filter && schema) {
         console.log("filter and schema found");
         let completeItems = await new FilterProvider().getDataset(schema, filter);
