@@ -40,6 +40,9 @@ schemaRouter.get("/:schema", (req, res) => {
     if(req.schema) {
         return res.json({data: req.schema});
     }
+    else {
+        return res.status(404).json({success: false, error: {code: 'NOT_FOUND'}});
+    }
 })
 
 schemaRouter.use("/:schema/dataset", datasetRouter);

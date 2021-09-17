@@ -15,7 +15,7 @@ filterRouter.get("/:filterCode", async (req, res) => {
     let pageIndex = parseInt(req.query.page as string || "1") - 1;
     let returnPerPage = parseInt(req.query.count as string || "25");
 
-    let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("code", code).single()).body;
+    let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("code", code).or("id="+code).single()).body;
     if (filter && schema) {
         let completeItems = await new FilterProvider().getDataset(schema, filter);
 
@@ -44,7 +44,7 @@ filterRouter.get("/:filterCode", async (req, res) => {
             })
         }
     }
-    return res.json({ success: false });
+    return res.status(404).json({ success: false, error: {code: 'NOT_FOUND'} });
 })
 
 export default filterRouter;
