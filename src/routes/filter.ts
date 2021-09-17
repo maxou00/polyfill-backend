@@ -47,4 +47,12 @@ filterRouter.get("/:filterCode", async (req, res) => {
     return res.status(404).json({ success: false, error: {code: 'NOT_FOUND'} });
 })
 
+filterRouter.get("/", async(req, res) => {
+    if(req.supaUser && req.schema) {
+        let filters = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("schemaId", req.schema.id)).body;
+        res.json({success: true, data: filters});
+    }
+    return res.status(403).json({ success: false, error: {code: 'BAD_REQUEST'} });
+})
+
 export default filterRouter;
