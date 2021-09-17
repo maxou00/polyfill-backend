@@ -9,13 +9,13 @@ import { FilterChainProcessor } from "../filtering/processor";
 
 const filterRouter = Router();
 
-filterRouter.get("/:filterCode", async (req, res) => {
+filterRouter.get("/:filter", async (req, res) => {
     let { schema } = req;
-    let code = req.params.filterCode;
+    let code = req.params.filter;
     let pageIndex = parseInt(req.query.page as string || "1") - 1;
     let returnPerPage = parseInt(req.query.count as string || "25");
 
-    let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("code", code).or("id.eq."+code).single()).body;
+    let filter = (await supabaseClient.from<DataFormFilter>(Tables.filter).select("*").eq("id", code).or("code.eq."+code).single()).body;
     if (filter && schema) {
         let completeItems = await new FilterProvider().getDataset(schema, filter);
 
